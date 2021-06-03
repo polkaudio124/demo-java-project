@@ -20,3 +20,13 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+task runService(type: JavaExec) {    
+    main = '-jar'
+    args = ['build/libs/' + archivesBaseName + '-' + version + '.jar']
+    jvmArgs = ["-DLOG_ROOT=/tmp/logs"]
+    maxHeapSize '512m'
+    
+    environment 'DATASOURCE_MIN_IDLE','5'
+    environment 'DATASOURCE_MAX_POOL','25'
+}
