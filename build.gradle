@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.4.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "org.sonarqube" version "3.2.0"
 }
 
 group = 'com.ngch'
@@ -19,4 +20,14 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+task runService(type: JavaExec) {    
+    main = '-jar'
+    args = ['build/libs/' + archivesBaseName + '-' + version + '.jar']
+    jvmArgs = ["-DLOG_ROOT=/tmp/logs"]
+    maxHeapSize '512m'
+    
+    environment 'DATASOURCE_MIN_IDLE','5'
+    environment 'DATASOURCE_MAX_POOL','25'
 }
